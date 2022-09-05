@@ -7,23 +7,29 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+private enum Sections : Int {
+    case TrendingMovies = 0
+    case TrendingTvs = 1
+    case Popular = 2
+    case Upcoming = 3
+    case TopRated = 4
+}
 
+class HomeViewController: UIViewController {
+// MARK: - Properties
+    
+    private let homeFeedTable : UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.register(cell: CollectionViewTableViewCell.self)
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func configureHeroHeaderView() {
+        
     }
-    */
-
 }
