@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class HeroHeaderUIView: UIView {
 
@@ -18,7 +19,6 @@ class HeroHeaderUIView: UIView {
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
-        
         return button
     }()
   
@@ -40,6 +40,39 @@ class HeroHeaderUIView: UIView {
         return imageView
     }()
 
+    // MARK: - Init
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    addGradient()
+
+
+        render()
+    }
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+ // MARK: - Func
+    
+    private func render() {
+        addSubview(HeroImageView)
+        HeroImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        addSubview(playButton)
+        playButton.snp.makeConstraints { make in
+            make.leading.equalTo(self).offset(70)
+            make.bottom.equalTo(self).offset(-50)
+            make.width.equalTo(100)
+        }
+        addSubview(downloadButton)
+        downloadButton.snp.makeConstraints { make in
+            make.trailing.equalTo(self).offset(-70)
+            make.bottom.equalTo(self).offset(-50)
+            make.width.equalTo(100)
+        }
+    }
+    
     private func addGradient(){
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
@@ -49,50 +82,16 @@ class HeroHeaderUIView: UIView {
         layer.addSublayer(gradientLayer)
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    addSubview(HeroImageView)
-    addGradient()
-    addSubview(playButton)
-    addSubview(downloadButton)
+//    public func configure(with model : TitleViewModel){
+//
+//
+//        guard let url = URL(string:"https://image.tmdb.org/t/p/w500\(model.posterURL)") else{return}
+//
+//  //      HeroImageView.sd_setImage(with: url, completed: nil)
+//
+//    }
 
-        applyConstraints()
-    }
-    
-    private func applyConstraints() {
-        let playButtonConstraints = [
-            playButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
-            playButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
-            playButton.widthAnchor.constraint(equalToConstant: 100)
-        ]
-        
-        let downloadButtonConstraints = [
-            downloadButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70),
-            downloadButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
-            downloadButton.widthAnchor.constraint(equalToConstant: 100)
-        ]
-        
-        
-        NSLayoutConstraint.activate(playButtonConstraints)
-        NSLayoutConstraint.activate(downloadButtonConstraints)
 
-    }
-    
-    public func configure(with model : TitleViewModel){
-        
-        
-        guard let url = URL(string:"https://image.tmdb.org/t/p/w500\(model.posterURL)") else{return}
-        
-        HeroImageView.sd_setImage(with: url, completed: nil)
-        
-    }
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        HeroImageView.frame = bounds
-    }
-    required init?(coder: NSCoder) {
-        fatalError()
-    }
     
     
 }
