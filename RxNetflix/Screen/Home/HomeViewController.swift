@@ -40,18 +40,29 @@ class HomeViewController: BaseViewController{
     // MARK: - Properties
     
     var homeViewModel = HomeViewModel()
-    
+    private var headerView : HeroHeaderUIView?
+
     private let homeFeedTable : UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(cell: CollectionViewTableViewCell.self)
-        tableView.backgroundColor = .red
         return tableView
     }()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        MovieAPI().getTrendingMovies { [weak self] result in
+            switch result {
+            case .success(let titles):
+                self?.homeViewModel.titleObservable.accept([titles])
+            case .failure(let error):
+                print(error.localizedDescription)
+
+            }
+        }
         bindToTable()
+
     }
     override func render() {
         view.addSubview(homeFeedTable)
@@ -62,14 +73,17 @@ class HomeViewController: BaseViewController{
     }
     
     override func configUI() {
-      //  configureHeroHeaderView()
+        configureHeroHeaderView()
         configureNavbar()
     }
     
     // MARK: - Func
     
     private func configureHeroHeaderView() {
-        // viewmodel
+        
+        headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        homeFeedTable.tableHeaderView = headerView
+        self.headerView?.configure(with: "https://www.theguru.co.kr/data/photos/20210937/art_16316071303022_bf8378.jpg")
     }
     
     private func configureNavbar() {
@@ -87,10 +101,9 @@ class HomeViewController: BaseViewController{
     private func bindToTable() {
         homeFeedTable.rx.setDelegate(self).disposed(by: homeViewModel.disposeBag)
         
-        homeViewModel.imageObservable
-            .bind(to: homeFeedTable.rx.items(cellIdentifier: CollectionViewTableViewCell.className, cellType: CollectionViewTableViewCell.self)){ row, images, cell in
-                print(row)
-                cell.configure(with: images)
+        homeViewModel.titleObservable
+            .bind(to: homeFeedTable.rx.items(cellIdentifier: CollectionViewTableViewCell.className, cellType: CollectionViewTableViewCell.self)){ row, titles, cell in
+                cell.configure(with: titles)
 
             }
             .disposed(by: homeViewModel.disposeBag)
@@ -118,7 +131,6 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        print("바보")
         return Sections.init(rawValue: section)?.title
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

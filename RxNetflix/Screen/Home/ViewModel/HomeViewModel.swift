@@ -17,9 +17,7 @@ class HomeViewModel {
                        "https://www.theguru.co.kr/data/photos/20210937/art_16316071303022_bf8378.jpg",
                        "https://www.theguru.co.kr/data/photos/20210937/art_16316071303022_bf8378.jpg"
     ]
-    var imageObservable: Observable<[[String]]> {
-       
-        return Observable<[[String]]>.of([imageUrlCol])
-    }
+    var titleObservable: BehaviorRelay<[[Title]]> = BehaviorRelay<[[Title]]>(value: [])
    
+
 }

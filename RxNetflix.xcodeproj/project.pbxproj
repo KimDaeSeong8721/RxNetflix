@@ -30,6 +30,11 @@
 		35A8738128C6336500BB75C3 /* UpcomingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A8738028C6336500BB75C3 /* UpcomingViewController.swift */; };
 		35A8738328C6336C00BB75C3 /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A8738228C6336C00BB75C3 /* DownloadsViewController.swift */; };
 		35A8738628C6339F00BB75C3 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A8738528C6339F00BB75C3 /* TabBarViewController.swift */; };
+		35B436AC28C8B8B600F4D74C /* GeneralAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B436AB28C8B8B600F4D74C /* GeneralAPI.swift */; };
+		35B436AE28C8B9BF00F4D74C /* MovieAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B436AD28C8B9BF00F4D74C /* MovieAPI.swift */; };
+		35B436B028C8B9F800F4D74C /* NetworkLoggerPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B436AF28C8B9F800F4D74C /* NetworkLoggerPlugin.swift */; };
+		35B436B228C8BA1900F4D74C /* MovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B436B128C8BA1900F4D74C /* MovieService.swift */; };
+		35B436B428C8BEE300F4D74C /* Encodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B436B328C8BEE300F4D74C /* Encodable+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +62,11 @@
 		35A8738028C6336500BB75C3 /* UpcomingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingViewController.swift; sourceTree = "<group>"; };
 		35A8738228C6336C00BB75C3 /* DownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
 		35A8738528C6339F00BB75C3 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		35B436AB28C8B8B600F4D74C /* GeneralAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralAPI.swift; sourceTree = "<group>"; };
+		35B436AD28C8B9BF00F4D74C /* MovieAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieAPI.swift; sourceTree = "<group>"; };
+		35B436AF28C8B9F800F4D74C /* NetworkLoggerPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkLoggerPlugin.swift; sourceTree = "<group>"; };
+		35B436B128C8BA1900F4D74C /* MovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieService.swift; sourceTree = "<group>"; };
+		35B436B328C8BEE300F4D74C /* Encodable+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Encodable+Extension.swift"; sourceTree = "<group>"; };
 		5D80E1C7D5E5C25A5878F97E /* Pods-RxNetflix.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxNetflix.release.xcconfig"; path = "Target Support Files/Pods-RxNetflix/Pods-RxNetflix.release.xcconfig"; sourceTree = "<group>"; };
 		7D601C267A600E3A38FFB6C5 /* Pods_RxNetflix.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxNetflix.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E31FCF738B20C424C902B6FB /* Pods-RxNetflix.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxNetflix.debug.xcconfig"; path = "Target Support Files/Pods-RxNetflix/Pods-RxNetflix.debug.xcconfig"; sourceTree = "<group>"; };
@@ -120,6 +130,7 @@
 		35A8735228C6323A00BB75C3 /* RxNetflix */ = {
 			isa = PBXGroup;
 			children = (
+				35B436A528C87B3A00F4D74C /* Network */,
 				35A8737328C632E200BB75C3 /* Models */,
 				35A8736A28C6328A00BB75C3 /* Global */,
 				35A8736928C6328700BB75C3 /* Screen */,
@@ -227,6 +238,7 @@
 				3594948F28C6451200F6C410 /* NSObject+Extension.swift */,
 				3594948828C639FD00F6C410 /* String+Extension.swift */,
 				359494A328C78DAF00F6C410 /* UICollectionView+Extension.swift */,
+				35B436B328C8BEE300F4D74C /* Encodable+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -272,6 +284,49 @@
 				35A8738528C6339F00BB75C3 /* TabBarViewController.swift */,
 			);
 			path = Tab;
+			sourceTree = "<group>";
+		};
+		35B436A528C87B3A00F4D74C /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				35B436A728C87B6500F4D74C /* API */,
+				35B436AA28C87B7900F4D74C /* Foundation */,
+				35B436A828C87B6900F4D74C /* APIService */,
+				35B436A628C87B6100F4D74C /* Model */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		35B436A628C87B6100F4D74C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		35B436A728C87B6500F4D74C /* API */ = {
+			isa = PBXGroup;
+			children = (
+				35B436AD28C8B9BF00F4D74C /* MovieAPI.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		35B436A828C87B6900F4D74C /* APIService */ = {
+			isa = PBXGroup;
+			children = (
+				35B436B128C8BA1900F4D74C /* MovieService.swift */,
+			);
+			path = APIService;
+			sourceTree = "<group>";
+		};
+		35B436AA28C87B7900F4D74C /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				35B436AB28C8B8B600F4D74C /* GeneralAPI.swift */,
+				35B436AF28C8B9F800F4D74C /* NetworkLoggerPlugin.swift */,
+			);
+			path = Foundation;
 			sourceTree = "<group>";
 		};
 		CF00FAB92A9EC08F1E3C12CC /* Frameworks */ = {
@@ -407,9 +462,11 @@
 			files = (
 				3594948728C6379400F6C410 /* Title.swift in Sources */,
 				3594948928C639FD00F6C410 /* String+Extension.swift in Sources */,
+				35B436B028C8B9F800F4D74C /* NetworkLoggerPlugin.swift in Sources */,
 				3594948E28C6438E00F6C410 /* CollectionViewTableViewCell.swift in Sources */,
 				3594949828C73FA000F6C410 /* HomeViewModel.swift in Sources */,
 				3594948B28C63A1D00F6C410 /* BaseViewController.swift in Sources */,
+				35B436B228C8BA1900F4D74C /* MovieService.swift in Sources */,
 				35A8738128C6336500BB75C3 /* UpcomingViewController.swift in Sources */,
 				35A8737F28C6335E00BB75C3 /* SearchViewController.swift in Sources */,
 				35A8735428C6323A00BB75C3 /* AppDelegate.swift in Sources */,
@@ -417,8 +474,11 @@
 				3594949028C6451200F6C410 /* NSObject+Extension.swift in Sources */,
 				35A8738628C6339F00BB75C3 /* TabBarViewController.swift in Sources */,
 				3594949228C6451700F6C410 /* UITableView+Extension.swift in Sources */,
+				35B436AC28C8B8B600F4D74C /* GeneralAPI.swift in Sources */,
 				3594949528C6462800F6C410 /* HeroHeaderView.swift in Sources */,
 				35A8738328C6336C00BB75C3 /* DownloadsViewController.swift in Sources */,
+				35B436AE28C8B9BF00F4D74C /* MovieAPI.swift in Sources */,
+				35B436B428C8BEE300F4D74C /* Encodable+Extension.swift in Sources */,
 				3594949A28C7400400F6C410 /* ViewModelBindableType.swift in Sources */,
 				3594949E28C740DD00F6C410 /* TitleCollectionViewCell.swift in Sources */,
 				359494A428C78DAF00F6C410 /* UICollectionView+Extension.swift in Sources */,

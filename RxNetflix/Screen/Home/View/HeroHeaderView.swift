@@ -82,14 +82,14 @@ class HeroHeaderUIView: UIView {
         layer.addSublayer(gradientLayer)
     }
     
-//    public func configure(with model : TitleViewModel){
-//
-//
-//        guard let url = URL(string:"https://image.tmdb.org/t/p/w500\(model.posterURL)") else{return}
-//
-//  //      HeroImageView.sd_setImage(with: url, completed: nil)
-//
-//    }
+    public func configure(with imageUrl : String){
+
+
+        guard let url = URL(string:imageUrl) else{return}
+
+        HeroImageView.sd_setImage(with: url, completed: nil)
+
+    }
 
 
     

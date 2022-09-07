@@ -34,8 +34,8 @@ class TitleCollectionViewCell: UICollectionViewCell {
 
     }
 
-    public func configure(with imageUrl : String){
-        guard let url = URL(string:imageUrl) else{return}
+    public func configure(with posterPath : String){
+        guard let url = URL(string:"https://image.tmdb.org/t/p/w500\(posterPath)") else{return}
         posterImageView.sd_setImage(with: url, completed: nil)
 }
 
