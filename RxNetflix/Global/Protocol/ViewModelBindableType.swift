@@ -19,8 +19,7 @@ extension ViewModelBindableType where Self : UIViewController {
     mutating func bindViewModel(_ viewModel : Self.ViewModelType){
         self.viewModel = viewModel
         
-        loadViewIfNeeded()  // 뷰컨트롤러를 뷰에 로드하기위해.
-        
+        loadViewIfNeeded()  // ViewController의 view가 아직 로드되지 않은 경우 로드함.
         bind()
     }
 }

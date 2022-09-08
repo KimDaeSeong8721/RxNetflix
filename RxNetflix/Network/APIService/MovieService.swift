@@ -13,12 +13,17 @@ enum MovieService {
     case upcomingMovies
     case popular
     case topRated
-    
+    case getMovie(query: String)
 }
 
 extension MovieService: TargetType {
     public var baseURL: URL {
-        return URL(string: GeneralAPI.baseURL)!
+        switch self {
+        case .getMovie:
+            return URL(string: GeneralAPI.youtubeBaseURL)!
+        default:
+            return URL(string: GeneralAPI.baseURL)!
+        }
     }
     
     var path: String {
@@ -33,6 +38,8 @@ extension MovieService: TargetType {
             return "/3/movie/popular?api_key=\(GeneralAPI.apiKey)&language=en-US&page=1"
         case .topRated:
             return "/3/movie/top_rated?api_key=\(GeneralAPI.apiKey)&language=en-US&page=1"
+        case .getMovie(_):
+            return ""
         }
     }
     
@@ -48,8 +55,13 @@ extension MovieService: TargetType {
     }
     
     var task: Task {
-        
-        return .requestParameters(parameters: ["api_key" : GeneralAPI.apiKey], encoding: URLEncoding.default)  // ?
+        switch self {
+        case .getMovie(let query):
+            return .requestParameters(parameters: ["q": query, "key": GeneralAPI.youtubeAPIKey], encoding: URLEncoding.default)
+        default:
+            return .requestParameters(parameters: ["api_key" : GeneralAPI.apiKey], encoding: URLEncoding.default)  // ?
+        }
+       
         }
     
 

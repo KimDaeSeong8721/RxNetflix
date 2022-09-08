@@ -30,6 +30,7 @@ class CollectionViewTableViewCell: UITableViewCell {
 
     
     private let disposeBag = DisposeBag()
+    var delegate: UIViewController?
     // MARK: - Init
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -65,7 +66,30 @@ class CollectionViewTableViewCell: UITableViewCell {
             }
             .disposed(by: disposeBag)
         
-            
+        collectionView.rx.modelSelected(Title.self)
+            .subscribe { title in
+                guard let titleOverview = title.element?.overview else { return}
+                guard let titleName =
+                        title.element?.originalTitle ?? title.element?.originalName else {
+                    return
+                }
+                MovieAPI().getMovie(with: titleName + " trailer") { result in
+                    switch result {
+                    case .success(let videoElement) :
+                        let viewModel = TitlePreviewViewModel(title: titleName, youtubeView: videoElement, titleOverview: titleOverview)
+                       
+                        DispatchQueue.main.async {
+                            let detailVC = TitlePreviewViewController()
+                            detailVC.configure(with: viewModel)
+                            self.delegate?.navigationController?.pushViewController(detailVC, animated: true)
+                        }
+                       
+                    case .failure(let error) :
+                        print(error.localizedDescription)
+                    }
+                }
+              
+            }.disposed(by: disposeBag)
     }
     
 }

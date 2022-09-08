@@ -13,16 +13,18 @@ protocol MovieAPIType {
 //    func getUpcomingMovies(completion : @escaping (Result<[Title],Error>) -> Void)
 //    func getPopular(completion : @escaping (Result<[Title],Error>) -> Void)
 //    func getTopRated(completion : @escaping (Result<[Title],Error>) -> Void)
+    func getMovie(with query : String, completion : @escaping (Result<VideoElement,Error>) -> Void)
 }
 
 final class MovieAPI : MovieAPIType {
+
     
     private let provider = MoyaProvider<MovieService>(plugins: [NetworkLoggerPlugin(verbose: true)])
     private var trendingMoviesResponse: TrendingTitleResponse?
     private var trendingTvsResponse: TrendingTitleResponse?
     private var popularResponse: TrendingTitleResponse?
     private var topRatedResponse: TrendingTitleResponse?
-    
+    private var getMovieResponse: YoutubeSearchResponse?
     let disposeBag = DisposeBag()
     func getTrendingMovies(completion: @escaping (Result<[Title], Error>) -> Void) {
         provider.rx.request(.trendingMovies, callbackQueue: .global()).subscribe { event in
@@ -73,5 +75,20 @@ final class MovieAPI : MovieAPIType {
 //        <#code#>
 //    }
     
-    
+    func getMovie(with query: String, completion: @escaping (Result<VideoElement, Error>) -> Void) {
+        provider.rx.request(.getMovie(query: query), callbackQueue: .global()).subscribe { event in
+            switch event {
+            case let .success(data): // case .success(let data)랑 동일.
+                do {
+                    self.getMovieResponse = try data.map(YoutubeSearchResponse.self)
+                    dump(self.getMovieResponse?.items[0])
+                    completion(.success((self.getMovieResponse?.items[0])!))
+                } catch(let err) {
+                    print(err.localizedDescription)
+                }
+            case let .failure(err):
+                completion(.failure(err))
+            }
+        }
+    }
 }

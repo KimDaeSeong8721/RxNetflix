@@ -34,12 +34,17 @@ private enum Sections : Int {
     }
 }
 
-class HomeViewController: BaseViewController{
+private enum Size {
+    static let rowHeight: CGFloat = 200
+    static let sectionHeaderHeight: CGFloat = 40
+}
+
+class HomeViewController: BaseViewController, ViewModelBindableType{
     
     
     // MARK: - Properties
     
-    var homeViewModel = HomeViewModel()
+    var viewModel: HomeViewModel!
     private var headerView : HeroHeaderUIView?
 
     private let homeFeedTable : UITableView = {
@@ -51,8 +56,7 @@ class HomeViewController: BaseViewController{
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        homeViewModel.getTrendingMovies()
-        bindToTable()
+        viewModel.getTrendingMovies()
 
     }
     override func render() {
@@ -60,12 +64,14 @@ class HomeViewController: BaseViewController{
         homeFeedTable.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
     }
     
     override func configUI() {
         configureHeroHeaderView()
         configureNavbar()
+    }
+    func bind() {
+        bindToTable()
     }
     
     // MARK: - Func
@@ -90,14 +96,14 @@ class HomeViewController: BaseViewController{
     }
     
     private func bindToTable() {
-        homeFeedTable.rx.setDelegate(self).disposed(by: homeViewModel.disposeBag)
+        homeFeedTable.rx.setDelegate(self).disposed(by: viewModel.disposeBag)
         
-        homeViewModel.titleObservable
+        viewModel.titleObservable
             .bind(to: homeFeedTable.rx.items(cellIdentifier: CollectionViewTableViewCell.className, cellType: CollectionViewTableViewCell.self)){ row, titles, cell in
                 cell.configure(with: titles)
-
+                cell.delegate = self
             }
-            .disposed(by: homeViewModel.disposeBag)
+            .disposed(by: viewModel.disposeBag)
     }
     
 }
@@ -107,11 +113,11 @@ class HomeViewController: BaseViewController{
 extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        return Size.rowHeight
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        return Size.sectionHeaderHeight
     }
     func tableView(_ tableView: UITableView, willDisplayHeaderView iew: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else {return}
@@ -121,9 +127,9 @@ extension HomeViewController: UITableViewDelegate {
         header.textLabel?.text = header.textLabel?.text?.capitalizeFirstLetter()
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return Sections.init(rawValue: section)?.title
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return Sections.init(rawValue: section)?.title
+//    }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let defaultOffset = view.safeAreaInsets.top
         let offset = scrollView.contentOffset.y + defaultOffset
