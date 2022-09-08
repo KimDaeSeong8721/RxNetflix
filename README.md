@@ -1,6 +1,6 @@
 # RxNetflix
 
-기존의 NetflixClone을 MVVM + RxSwift + Moya 로 리팩토링하는 프로젝트입니다.
+기존의 NetflixClone을 MVVM아키텍쳐 패턴으로 리팩토링하는 프로젝트입니다.
 
 
 - MVC -> MVVM
