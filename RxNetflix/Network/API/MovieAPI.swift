@@ -6,7 +6,7 @@
 //
 
 import Moya
-
+import RxSwift
 protocol MovieAPIType {
     func getTrendingMovies(completion : @escaping (Result<[Title],Error>) -> Void)
 //    func getTrendingTvs(completion : @escaping (Result<[Title],Error>) -> Void)
@@ -23,6 +23,7 @@ final class MovieAPI : MovieAPIType {
     private var popularResponse: TrendingTitleResponse?
     private var topRatedResponse: TrendingTitleResponse?
     
+    let disposeBag = DisposeBag()
     func getTrendingMovies(completion: @escaping (Result<[Title], Error>) -> Void) {
         provider.rx.request(.trendingMovies, callbackQueue: .global()).subscribe { event in
             switch event {
@@ -37,6 +38,7 @@ final class MovieAPI : MovieAPIType {
             case let .failure( err):
                 completion(.failure(err.localizedDescription as! Error))
             }        }
+        .disposed(by: disposeBag)
         
 //        provider.request(.trendingMovies, callbackQueue: .global()) { response in
 //            switch response {

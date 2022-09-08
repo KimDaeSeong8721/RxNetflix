@@ -51,16 +51,7 @@ class HomeViewController: BaseViewController{
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        MovieAPI().getTrendingMovies { [weak self] result in
-            switch result {
-            case .success(let titles):
-                self?.homeViewModel.titleObservable.accept([titles])
-            case .failure(let error):
-                print(error.localizedDescription)
-
-            }
-        }
+        homeViewModel.getTrendingMovies()
         bindToTable()
 
     }
@@ -78,7 +69,7 @@ class HomeViewController: BaseViewController{
     }
     
     // MARK: - Func
-    
+    // TODO: - 이런 함수들도 homeViewModel에 넣어야 할까?
     private func configureHeroHeaderView() {
         
         headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))

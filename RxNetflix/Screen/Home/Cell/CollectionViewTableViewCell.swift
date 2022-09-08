@@ -26,8 +26,10 @@ class CollectionViewTableViewCell: UITableViewCell {
     
    // private var images: [String] = [String]()
     private var titles: BehaviorRelay<[Title]> = BehaviorRelay(value: [])
-    // 이거를 computed 속성으로 했을때는 연결이 안됐음. 왜지?
+    // FIXME: - 이거를 computed 속성으로 했을때는 연결이 안됐음. 왜지?
+
     
+    private let disposeBag = DisposeBag()
     // MARK: - Init
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -59,9 +61,9 @@ class CollectionViewTableViewCell: UITableViewCell {
     private func bindToCollection() {
         titles.asDriver(onErrorJustReturn: [])
             .drive(collectionView.rx.items(cellIdentifier: TitleCollectionViewCell.className, cellType: TitleCollectionViewCell.self)) { index, title, cell in
-                print(title.posterPath)
                 cell.configure(with: title.posterPath ?? "")
             }
+            .disposed(by: disposeBag)
         
             
     }
