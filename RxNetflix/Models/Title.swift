@@ -21,7 +21,7 @@ struct Title : Codable {
     let originalTitle : String?
     let posterPath : String?
     let overview : String?
-    let voteCount : Int
+    let voteCount : Int?
     let releaseDate : String?
     let voteAverage: Double
     

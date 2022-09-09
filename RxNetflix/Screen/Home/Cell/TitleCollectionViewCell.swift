@@ -10,6 +10,8 @@ import UIKit
 import SDWebImage
 import SnapKit
 class TitleCollectionViewCell: UICollectionViewCell {
+
+    // MARK: - Properties
     
     private let posterImageView : UIImageView = {
         let imageView = UIImageView()
@@ -17,6 +19,8 @@ class TitleCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    // MARK: - Init
+
     override init(frame: CGRect) {
         super .init(frame: frame)
         render()
@@ -25,6 +29,8 @@ class TitleCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError()
     }
+    
+    // MARK: - Func
     
     private func render() {
         addSubview(posterImageView)

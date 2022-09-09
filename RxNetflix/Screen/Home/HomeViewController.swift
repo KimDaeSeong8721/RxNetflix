@@ -11,28 +11,28 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-private enum Sections : Int {
-    case TrendingMovies = 0
-    case TrendingTvs = 1
-    case Popular = 2
-    case Upcoming = 3
-    case TopRated = 4
-    
-    var title: String {
-        switch self {
-        case .TrendingMovies:
-            return "Trending Movies"
-        case .TrendingTvs:
-            return "Trending Tv"
-        case .Popular:
-            return "Popular"
-        case .Upcoming:
-            return "Upcoming Movies"
-        case .TopRated:
-            return "Top rated"
-        }
-    }
-}
+//private enum Sections : Int {
+//    case TrendingMovies = 0
+//    case TrendingTvs = 1
+//    case Popular = 2
+//    case Upcoming = 3
+//    case TopRated = 4
+//
+//    var title: String {
+//        switch self {
+//        case .TrendingMovies:
+//            return "Trending Movies"
+//        case .TrendingTvs:
+//            return "Trending Tv"
+//        case .Popular:
+//            return "Popular"
+//        case .Upcoming:
+//            return "Upcoming Movies"
+//        case .TopRated:
+//            return "Top rated"
+//        }
+//    }
+//}
 
 private enum Size {
     static let rowHeight: CGFloat = 200
@@ -40,7 +40,6 @@ private enum Size {
 }
 
 class HomeViewController: BaseViewController, ViewModelBindableType{
-    
     
     // MARK: - Properties
     
@@ -54,6 +53,7 @@ class HomeViewController: BaseViewController, ViewModelBindableType{
     }()
     
     // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getTrendingMovies()
@@ -95,12 +95,14 @@ class HomeViewController: BaseViewController, ViewModelBindableType{
         
     }
     
+    // TODO: - 이것까지 인풋 아웃풋 패턴으로 적용해야할까? 일단은 이벤트가 발생하는 지점에 인풋 아웃풋 패턴 적용
     private func bindToTable() {
         homeFeedTable.rx.setDelegate(self).disposed(by: viewModel.disposeBag)
         
         viewModel.titleObservable
-            .bind(to: homeFeedTable.rx.items(cellIdentifier: CollectionViewTableViewCell.className, cellType: CollectionViewTableViewCell.self)){ row, titles, cell in
+            .bind(to: homeFeedTable.rx.items(cellIdentifier: CollectionViewTableViewCell.className, cellType: CollectionViewTableViewCell.self)){ _, titles, cell in
                 cell.configure(with: titles)
+                cell.bindViewModel(with: self.viewModel)
                 cell.delegate = self
             }
             .disposed(by: viewModel.disposeBag)
