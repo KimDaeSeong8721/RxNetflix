@@ -9,3 +9,4 @@
 - MVC -> MVVM
 - 뷰와 뷰모델 바인딩을 위한 RxSwift
 - URLSession -> Moya 프레임워크 사용
+- Snapkit 사용
