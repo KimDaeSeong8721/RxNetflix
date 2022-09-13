@@ -63,7 +63,7 @@ class CollectionViewTableViewCell: UITableViewCell {
             }
             .disposed(by: rx.disposeBag)
         
-        let input = HomeViewModel.Input(tapCollectionViewCell: collectionView.rx.modelSelected(Title.self).asObservable().throttle(.seconds(1), latest: false, scheduler: MainScheduler.asyncInstance))
+        let input = HomeViewModel.Input(tapCollectionViewCell: collectionView.rx.modelSelected(Title.self).asObservable().throttle(.seconds(2), latest: false, scheduler: MainScheduler.asyncInstance))
         
         let output = viewModel.transform(input: input)
         output.replyTitlePreview.observe(on: MainScheduler.instance)
