@@ -11,4 +11,6 @@ target 'RxNetflix' do
     pod 'RxCocoa', '6.5.0'
     pod 'SDWebImage', '~> 5.0' 
     pod 'Moya/RxSwift' 
+    pod 'NSObject+Rx'
+
 end
