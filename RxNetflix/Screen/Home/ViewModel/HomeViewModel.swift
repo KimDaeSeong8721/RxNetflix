@@ -9,17 +9,12 @@ import Foundation
 
 import RxCocoa
 import RxSwift
-class HomeViewModel : ViewModelType {
+import NSObject_Rx
+class HomeViewModel : ViewModelType, HasDisposeBag {
     
     // MARK: - Properties
     
     private let replyTitlePreview = BehaviorRelay<TitlePreviewViewModel>(value: TitlePreviewViewModel(title: "", youtubeView: VideoElement(id: IdVideoElement(kind: "", videoId: "")), titleOverview: ""))
-//    private let tapCollectionViewCell = PublishRelay<Title>()
-    var disposeBag = DisposeBag()
-    var imageUrlCol:[String] = ["https://www.theguru.co.kr/data/photos/20210937/art_16316071303022_bf8378.jpg",
-                       "https://www.theguru.co.kr/data/photos/20210937/art_16316071303022_bf8378.jpg",
-                       "https://www.theguru.co.kr/data/photos/20210937/art_16316071303022_bf8378.jpg"
-    ]
     var titleObservable: BehaviorRelay<[[Title]]> = BehaviorRelay<[[Title]]>(value: [])
    
    
@@ -69,7 +64,7 @@ extension HomeViewModel {
                     }
                 }
               
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
         
      //   print("2이다")
         return Output(replyTitlePreview:replyTitlePreview.asObservable())

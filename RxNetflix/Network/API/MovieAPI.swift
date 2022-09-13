@@ -7,6 +7,7 @@
 
 import Moya
 import RxSwift
+import NSObject_Rx
 protocol MovieAPIType {
     func getTrendingMovies(completion : @escaping (Result<[Title],Error>) -> Void)
 //    func getTrendingTvs(completion : @escaping (Result<[Title],Error>) -> Void)
@@ -16,7 +17,7 @@ protocol MovieAPIType {
     func getMovie(with query : String, completion : @escaping (Result<VideoElement,Error>) -> Void)
 }
 
-final class MovieAPI : MovieAPIType {
+final class MovieAPI : MovieAPIType, HasDisposeBag {
 
     
     private let provider = MoyaProvider<MovieService>(plugins: [NetworkLoggerPlugin(verbose: true)])
@@ -25,7 +26,7 @@ final class MovieAPI : MovieAPIType {
     private var popularResponse: TrendingTitleResponse?
     private var topRatedResponse: TrendingTitleResponse?
     private var getMovieResponse: YoutubeSearchResponse?
-    let disposeBag = DisposeBag()
+    
     func getTrendingMovies(completion: @escaping (Result<[Title], Error>) -> Void) {
         provider.rx.request(.trendingMovies, callbackQueue: .global()).subscribe { event in
             switch event {

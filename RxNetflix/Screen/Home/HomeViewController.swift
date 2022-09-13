@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SnapKit
+import NSObject_Rx
 
 //private enum Sections : Int {
 //    case TrendingMovies = 0
@@ -97,7 +98,7 @@ class HomeViewController: BaseViewController, ViewModelBindableType{
     
     // TODO: - 이것까지 인풋 아웃풋 패턴으로 적용해야할까? 일단은 이벤트가 발생하는 지점에 인풋 아웃풋 패턴 적용
     private func bindToTable() {
-        homeFeedTable.rx.setDelegate(self).disposed(by: viewModel.disposeBag)
+        homeFeedTable.rx.setDelegate(self).disposed(by: rx.disposeBag)
         
         viewModel.titleObservable
             .bind(to: homeFeedTable.rx.items(cellIdentifier: CollectionViewTableViewCell.className, cellType: CollectionViewTableViewCell.self)){ _, titles, cell in
@@ -105,7 +106,7 @@ class HomeViewController: BaseViewController, ViewModelBindableType{
                 cell.bindViewModel(with: self.viewModel)
                 cell.delegate = self
             }
-            .disposed(by: viewModel.disposeBag)
+            .disposed(by: rx.disposeBag)
     }
     
 }

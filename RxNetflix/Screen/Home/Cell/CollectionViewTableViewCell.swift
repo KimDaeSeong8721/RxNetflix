@@ -9,7 +9,7 @@ import UIKit
 
 import RxCocoa
 import RxSwift
-
+import NSObject_Rx
 class CollectionViewTableViewCell: UITableViewCell {
     
     // MARK: - Properties
@@ -27,7 +27,6 @@ class CollectionViewTableViewCell: UITableViewCell {
     // FIXME: - 이거를 computed 속성으로 했을때는 연결이 안됐음. 왜지?
     
     
-    private let disposeBag = DisposeBag()
     var delegate: UIViewController?
     // MARK: - Init
     
@@ -62,9 +61,9 @@ class CollectionViewTableViewCell: UITableViewCell {
             .drive(collectionView.rx.items(cellIdentifier: TitleCollectionViewCell.className, cellType: TitleCollectionViewCell.self)) { index, title, cell in
                 cell.configure(with: title.posterPath ?? "")
             }
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
-        let input = HomeViewModel.Input(tapCollectionViewCell: collectionView.rx.modelSelected(Title.self).asObservable())
+        let input = HomeViewModel.Input(tapCollectionViewCell: collectionView.rx.modelSelected(Title.self).asObservable().throttle(.seconds(1), latest: false, scheduler: MainScheduler.asyncInstance))
         
         let output = viewModel.transform(input: input)
         output.replyTitlePreview.observe(on: MainScheduler.instance)
@@ -72,7 +71,7 @@ class CollectionViewTableViewCell: UITableViewCell {
                 let detailVC = TitlePreviewViewController()
                 detailVC.configure(with: (titlePreviewModel.element)!)
                 self.delegate?.navigationController?.pushViewController(detailVC, animated: true)
-            }.disposed(by: disposeBag)
+            }.disposed(by: rx.disposeBag)
         
 //        collectionView.rx.modelSelected(Title.self)
 //            .subscribe { title in
