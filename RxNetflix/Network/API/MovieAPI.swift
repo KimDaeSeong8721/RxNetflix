@@ -27,39 +27,7 @@ final class MovieAPI : MovieAPIType, HasDisposeBag {
     private var topRatedResponse: TrendingTitleResponse?
     private var getMovieResponse: YoutubeSearchResponse?
     
-    func getTrendingMovies(completion: @escaping (Result<[Title], Error>) -> Void) {
-        provider.rx.request(.trendingMovies, callbackQueue: .global()).subscribe { event in
-            switch event {
-            case let .success(data): // case .success(let data)랑 동일.
-                do {
-                    self.trendingMoviesResponse = try data.map(TrendingTitleResponse.self)
-                    dump(self.trendingMoviesResponse?.results)
-                    completion(.success(self.trendingMoviesResponse?.results ?? []))
-                } catch(let err) {
-                    print(err.localizedDescription)
-                }
-            case let .failure( err):
-                completion(.failure(err.localizedDescription as! Error))
-            }        }
-        .disposed(by: disposeBag)
         
-//        provider.request(.trendingMovies, callbackQueue: .global()) { response in
-//            switch response {
-//            case .success(let data):
-//                do {
-//                    self.trendingMoviesResponse = try data.map(TrendingTitleResponse.self)
-//                    dump(self.trendingMoviesResponse?.results)
-//                    completion(.success(self.trendingMoviesResponse?.results ?? []))
-//                } catch(let err) {
-//                    print(err.localizedDescription)
-//                }
-//            case .failure(let err):
-//                completion(.failure(err.localizedDescription as! Error))
-//            }
-
-       // }
-    }
-    
 //    func getTrendingTvs(completion: @escaping (Result<[Title], Error>) -> Void) {
 //        <#code#>
 //    }
